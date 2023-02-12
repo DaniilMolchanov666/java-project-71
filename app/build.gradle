@@ -13,6 +13,7 @@ plugins {
     id 'application'
 }
 
+
 application {
     // Define the main class for the application.
     mainClassName = 'hexlet.code.App'
@@ -28,10 +29,16 @@ repositories {
 
 dependencies {
     // This dependency is used by the application.
+    // https://mavenlibs.com/maven/dependency/info.picocli/picocli
+    implementation group: 'info.picocli', name: 'picocli', version: '4.7.1'
     implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation 'info.picocli:picocli:4.7.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    annotationProcessor 'info.picocli:picocli-codegen:4.7.1'
 }
-
-testing {
+/*testing {
     suites {
         // Configure the built-in test suite
         test {
@@ -40,6 +47,8 @@ testing {
         }
     }
 }
+*/
+
 
 compileJava {
     options.release = 17

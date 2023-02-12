@@ -3,12 +3,39 @@
  */
 package hexlet.code;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
+import com.fasterxml.jackson.databind.ObjectMapper;
+import picocli.CommandLine;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.concurrent.Callable;
+
+@CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true,
+        description = "Compares two configuration files and shows a difference.")
+
+public class App implements Callable {
+
+    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
+    String format1;
+    @CommandLine.Parameters(paramLabel = "filepath1",
+            defaultValue = "app/src/main/java/hexlet/code/File1.json", description = "path to first file")
+    Path path1;
+    @CommandLine.Parameters(paramLabel = "filepath2",
+            defaultValue = "app/src/main/java/hexlet/code/File2.json", description = "path to second file")
+    Path path2;
+
+    public static void main(String[] args) throws IOException {
+        new CommandLine(new App()).execute();
+
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    @Override
+    public Object call() throws IOException {
+        File file1 = new File(path1.toString());
+        File file2 = new File(path2.toString());
+        String result = Differ.genDiff(file1, file2);
+        System.out.println(result);
+        return result;
     }
 }
