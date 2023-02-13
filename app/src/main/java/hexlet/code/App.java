@@ -28,6 +28,9 @@ public class App implements Callable {
     public static void main(String[] args) throws IOException {
         new CommandLine(new App()).execute();
 
+        //File file = new File("app/src/main/java/hexlet/code/File2.json");
+        //System.out.println(Differ.getStringFile(file));
+
     }
 
     @Override

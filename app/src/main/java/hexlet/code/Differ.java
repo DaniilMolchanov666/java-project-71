@@ -8,40 +8,77 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
 public class Differ {
 
+    private static StringBuilder generateString = new StringBuilder();
+
+    private static TreeMap<String, Object> map1 = new TreeMap<>();
+
+    private static TreeMap<String, Object> map2 = new TreeMap<>();
+
+    public static String getCorrectEntry(Map.Entry<String, Object> entry) {
+        if (map1.containsKey(entry.getKey()) && map2.containsKey(entry.getKey())) {
+            if (map1.get(entry.getKey()).equals(map2.get(entry.getKey()))) {
+                return "    " + entry;
+            }
+        }
+        if (map1.entrySet().contains(entry)) {
+            return "  - " + entry;
+        } else {
+            if (map2.entrySet().contains(entry)) {
+                return "  + " + entry;
+            }
+        }
+
+        return "" + entry;
+    }
+
     public static String genDiff(File file1, File file2) throws IOException{
-        //mapper.writeValue(new File("hexlet.code.file.json"), car);
-        //String newJSON = mapper.writeValueAsString(car);
-        //System.out.println(mapper.writeValueAsString(car));
+
+        generateString.delete(0, generateString.length());
+
         String fileLikeString1 = getStringFile(file1);
         String fileLikeString2 = getStringFile(file2);
 
-        Map<String, Object> map1 = getData(fileLikeString1);
-        Map<String, Object> map2 = getData(fileLikeString2);
+        map1.putAll(getData(fileLikeString1));
+        map2.putAll(getData(fileLikeString2));
 
-        List<Map.Entry<String, Object>> list = Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
+        generateString.append("{" + "\n");
+
+        List<String> list = Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
+                .distinct()
                 .sorted(Map.Entry.comparingByKey())
+                .map(Differ::getCorrectEntry)
                 .toList();
-        return list.toString();
+        for (String a:list) {
+            generateString.append(a + "\n");
+        }
+
+        generateString.append("}");
+        return generateString.toString();
     }
 
-    public static Map getData(String content) throws IOException{
+    public static Map<String, Object> getData(String content) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         TreeMap<String, Object> map= mapper.readValue(content, new TypeReference<TreeMap<String, Object>>() {});
         return map;
     }
 
     public static String getStringFile(File file) throws IOException{
-        StringBuilder str = new StringBuilder();
+
+        generateString.delete(0, generateString.length());
 
         FileReader a = new FileReader(file);
         Scanner sc = new Scanner(a);
 
         while(sc.hasNext()) {
             String string = sc.nextLine();
-            str.append(string);
+            generateString.append(string).append("\n");
         }
-        return str.toString();
+        return generateString.toString();
     }
+
+
 }
