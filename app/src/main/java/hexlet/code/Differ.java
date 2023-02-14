@@ -8,8 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-
 public class Differ {
 
     private static StringBuilder generateString = new StringBuilder();
@@ -53,7 +51,7 @@ public class Differ {
                 .map(Differ::getCorrectEntry)
                 .toList();
         for (String a:list) {
-            generateString.append(a + "\n");
+            generateString.append(a).append("\n");
         }
 
         generateString.append("}");
@@ -79,6 +77,4 @@ public class Differ {
         }
         return generateString.toString();
     }
-
-
 }
