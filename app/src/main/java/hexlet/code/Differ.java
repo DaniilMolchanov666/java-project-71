@@ -1,11 +1,10 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Differ {
@@ -37,11 +36,18 @@ public class Differ {
 
         generateString.delete(0, generateString.length());
 
-        String fileLikeString1 = getStringFile(file1);
-        String fileLikeString2 = getStringFile(file2);
+        String fileLikeString1 = Parser.getStringFile(file1);
+        String fileLikeString2 = Parser.getStringFile(file2);
 
-        map1.putAll(getData(fileLikeString1));
-        map2.putAll(getData(fileLikeString2));
+        try {
+
+            map1.putAll(Formatter.getData(fileLikeString1));
+            map2.putAll(Formatter.getData(fileLikeString2));
+
+        } catch(UncheckedIOException o) {
+            System.out.println("no");
+        }
+
 
         generateString.append("{" + "\n");
 
@@ -55,26 +61,6 @@ public class Differ {
         }
 
         generateString.append("}");
-        return generateString.toString();
-    }
-
-    public static Map<String, Object> getData(String content) throws IOException{
-        ObjectMapper mapper = new ObjectMapper();
-        TreeMap<String, Object> map= mapper.readValue(content, new TypeReference<TreeMap<String, Object>>() {});
-        return map;
-    }
-
-    public static String getStringFile(File file) throws IOException{
-
-        generateString.delete(0, generateString.length());
-
-        FileReader a = new FileReader(file);
-        Scanner sc = new Scanner(a);
-
-        while(sc.hasNext()) {
-            String string = sc.nextLine();
-            generateString.append(string).append("\n");
-        }
         return generateString.toString();
     }
 }
