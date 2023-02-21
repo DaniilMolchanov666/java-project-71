@@ -22,10 +22,10 @@ public class App implements Callable {
     @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./app/File3.json", description = "path to first file")
+            defaultValue = "./app/FirstYml.yml", description = "path to first file")
     Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./app/File4.json", description = "path to second file")
+            defaultValue = "./app/SecongYml.yml", description = "path to second file")
     Path path2;
 
     public static void main(String[] args) throws IOException {

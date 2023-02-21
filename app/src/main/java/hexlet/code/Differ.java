@@ -29,7 +29,7 @@ public class Differ {
             }
         }
 
-        return "" + entry;
+        return entry.toString();
     }
 
     public static String genDiff(File file1, File file2) throws IOException{
@@ -40,12 +40,18 @@ public class Differ {
         String fileLikeString2 = Parser.getStringFile(file2);
 
         try {
+            if (file1.getName().contains("json")) {
 
-            map1.putAll(Formatter.getData(fileLikeString1));
-            map2.putAll(Formatter.getData(fileLikeString2));
+                map1.putAll(Formatter.geJsonMap(fileLikeString1));
+                map2.putAll(Formatter.geJsonMap(fileLikeString2));
+            } else if (file1.getName().contains("yml")) {
+
+                map1.putAll(Formatter.geYMLMap(fileLikeString1));
+                map2.putAll(Formatter.geYMLMap(fileLikeString2));
+            }
 
         } catch(UncheckedIOException o) {
-            System.out.println("no");
+            System.out.println("Incorrect format of files!");
         }
 
 
