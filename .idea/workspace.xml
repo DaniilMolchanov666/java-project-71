@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="0f0124f4-f041-4425-9e44-49379523663e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/test/java/java/hexlet/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/java/hexlet/AppTest.java" afterDir="false" />
     </list>
+=======
+    <list default="true" id="0f0124f4-f041-4425-9e44-49379523663e" name="Changes" comment="" />
+>>>>>>> f1f43a6c2f4c3883d71e23bd3ccc8f0e952d7dcf
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,18 +121,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SomeExamples" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="hexlet.code.SomeExamples" />
-      <module name="java-project-71.app.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="hexlet.code.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="AppTest.appHasAGreeting" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;java.hexlet.AppTest.appHasAGreeting&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="java-project-71 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -177,7 +191,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -193,13 +207,20 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Gradle.AppTest.appHasAGreeting" />
+      <item itemvalue="Gradle.java-project-71 [build]" />
+      <item itemvalue="Gradle.java-project-71 [clean]" />
+      <item itemvalue="Gradle.java-project-71 [installDist]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.java-project-71 [installDist]" />
         <item itemvalue="Gradle.java-project-71 [build]" />
+        <item itemvalue="Gradle.AppTest.appHasAGreeting" />
         <item itemvalue="Application.App" />
         <item itemvalue="Gradle.java-project-71 [clean]" />
-        <item itemvalue="Application.SomeExamples" />
       </list>
     </recent_temporary>
   </component>
