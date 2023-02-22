@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f0124f4-f041-4425-9e44-49379523663e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/Differ.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/Differ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/File1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/File2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/car.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/file" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hexlet.code.file.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/java/hexlet/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/java/hexlet/AppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
