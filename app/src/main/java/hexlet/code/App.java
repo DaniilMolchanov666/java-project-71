@@ -36,7 +36,7 @@ public class App implements Callable {
 
         File file1 = new File(path1.toAbsolutePath().normalize().toString());
         File file2 = new File(path2.toAbsolutePath().normalize().toString());
-        String result = Differ.genDiff(file1, file2, format1);
+        String result = Differ.generate(file1, file2, format1);
         System.out.println(result);
         return result;
     }
