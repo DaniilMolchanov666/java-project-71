@@ -22,22 +22,21 @@ public class App implements Callable {
     @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./app/FirstYml.yml", description = "path to first file")
+            defaultValue = "./app/File1.json", description = "path to first file")
     Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./app/SecongYml.yml", description = "path to second file")
+            defaultValue = "./app/File2.json", description = "path to second file")
     Path path2;
 
     public static void main(String[] args) throws IOException {
         new CommandLine(new App()).execute(args);
-
     }
     @Override
     public Object call() throws IOException {
 
         File file1 = new File(path1.toAbsolutePath().normalize().toString());
         File file2 = new File(path2.toAbsolutePath().normalize().toString());
-        String result = Differ.genDiff(file1, file2);
+        String result = Differ.generate(file1, file2, format1);
         System.out.println(result);
         return result;
     }
