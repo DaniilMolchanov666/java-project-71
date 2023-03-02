@@ -10,9 +10,6 @@
   "checked": false,
   "numbers3": [3, 4, 5],
   "chars1": ["a", "b", "c"],
-  "chars2": ["d", "e", "f"],
-  "obj1": {
-    "nestedKey": "value",
-    "isNested": false
-  }
+  "chars2": ["d", "e", "f"]
+
 }

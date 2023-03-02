@@ -1,11 +1,25 @@
 package hexlet.code.formatters;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StrBuilder;
+import org.apache.commons.text.StringSubstitutor;
+import org.apache.commons.text.translate.*;
+
 
 public class Plain {
 
-    private static StringBuilder generateString = new StringBuilder();
+    private static final StringBuilder generateString = new StringBuilder();
+
+    private static Map<String, Object> map1 = new TreeMap<>();
+
+    private static Map<String, Object> map2 = new TreeMap<>();
+
+    private static String update  = "Property 'key' was updated. From value 1 to value2";
+
 
     public static Object valueChanger(Object value) { // проверка является ли значение пары массивом или мапой
         //if (value.toString().startsWith("[") || value.toString().startsWith("{")) {
@@ -17,25 +31,26 @@ public class Plain {
         return value;
     }
 
-    public static String genDiff(TreeMap<String, Object> map1, TreeMap<String, Object> map2) {
+    public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
 
-        generateString.delete(0, generateString.length());
+        map1 = mapFirst;
+        map2 = mapSecond;
 
-        List<Map.Entry<String, Object>> list = Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
+       return Stream.concat(map1.keySet().stream(), map2.keySet().stream())
                 .distinct()
-                .sorted(Map.Entry.comparingByKey())
-                .toList();
+                .sorted()
+                .map(key -> getCorrectEntry(Map.entry(key, map1.containsKey(key) ? map1.get(key): map2.get(key))))
+                .collect(Collectors.joining(""));
 
-        for (Map.Entry<String, Object> entry: list) {
+    }
+        public static String getCorrectEntry(Map.Entry<String, Object> entry) {
+            generateString.delete(0, generateString.length());
+
             if (map1.containsKey(entry.getKey()) && map2.containsKey(entry.getKey())) { // если пары равны по ключу
-                if (!map1.get(entry.getKey()).toString().equals(map2.get(entry.getKey()).toString())) { // если пары не равны по значению
-                    generateString.append("Property" + " '")
-                            .append(entry.getKey())
-                            .append("' ").append("was updated. From ")
-                            .append(valueChanger(map1.get(entry.getKey())))
-                            .append(" to ")
-                            .append((valueChanger(map2.get(entry.getKey()))))
-                            .append("\n");
+                if (!map1.get(entry.getKey()).equals(map2.get(entry.getKey()))) { // если пары не равны по значению
+                    return "Property" + " '" + entry.getKey() + "' " + "was updated. From "
+                    + valueChanger(map1.get(entry.getKey()))  + " to " + valueChanger(map2.get(entry.getKey()))
+                    + "\n";
                 }
             } else if (map2.containsKey(entry.getKey())) {
                 generateString.append("Property" + " '")
@@ -49,7 +64,7 @@ public class Plain {
                         .append("' ").append("was removed")
                         .append("\n");
             }
-        }
+
             return generateString.toString();
     }
 

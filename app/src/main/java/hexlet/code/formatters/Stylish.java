@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-public class Stylish {
+public class Stylish extends Formatter{
 
     private static StringBuilder generateString = new StringBuilder();
+
     private static TreeMap<String, Object> map1 = new TreeMap<>();
 
     private static TreeMap<String, Object> map2 = new TreeMap<>();
@@ -35,8 +36,8 @@ public class Stylish {
 
     public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
 
-        map1.putAll(mapFirst);
-        map2.putAll(mapSecond);
+        map1 = mapFirst;
+        map2 = mapSecond;
 
         generateString.delete(0, generateString.length());
 

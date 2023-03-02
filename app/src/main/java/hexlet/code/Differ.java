@@ -1,7 +1,9 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.formatters.Json;
 import hexlet.code.formatters.Plain;
 import hexlet.code.formatters.Stylish;
 
@@ -18,7 +20,7 @@ public class Differ {
     private static TreeMap<String, Object> map2 = new TreeMap<>();
 
 
-    public static String generate(File file1, File file2, String format) {
+    public static String generate(File file1, File file2, String format) throws JsonProcessingException {
 
         generateString.delete(0, generateString.length());
 
@@ -33,7 +35,9 @@ public class Differ {
         if (format.equals("plain")) {
             return Plain.genDiff(map1, map2);
         } else if (format.equals("stylish")) {
-            return Stylish.genDiff(Parser.geJsonMap(file1), Parser.geJsonMap(file2));
+            return Stylish.genDiff(map1, map2);
+        } else if(format.equals("json")) {
+            return Json.genDiff(map1, map2);
         }
 
         return "Incorrect format!";

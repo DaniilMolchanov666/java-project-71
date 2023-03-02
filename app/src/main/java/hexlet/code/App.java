@@ -5,6 +5,8 @@ package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.formatters.Json;
+import hexlet.code.formatters.Plain;
 import picocli.CommandLine;
 
 import java.io.*;
@@ -19,7 +21,7 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
+    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "plain")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
             defaultValue = "./app/File1.json", description = "path to first file")

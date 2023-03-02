@@ -3,11 +3,25 @@
  */
 package java.hexlet;
 
+import hexlet.code.App;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 class AppTest {
-   // @Test
-   // void appHasAGreeting() {
-   //     App classUnderTest = new App();
-   //     assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-   // }
+    public static int a;
+
+    @BeforeAll
+    public static void a() {
+        a = 2;
+    }
+
+    @Test
+    void appHasAGreeting() {
+        assertThat(a).isEqualTo(3);
+
+    }
 
 }
