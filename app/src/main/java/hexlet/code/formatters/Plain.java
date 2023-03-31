@@ -10,22 +10,13 @@ import org.apache.commons.text.StringSubstitutor;
 import org.apache.commons.text.translate.*;
 
 
-public class Plain {
+public class Plain extends FormatGenerator{
 
-    private static final StringBuilder generateString = new StringBuilder();
-
-    private static Map<String, Object> map1 = new TreeMap<>();
-
-    private static Map<String, Object> map2 = new TreeMap<>();
-
-    private static String update  = "Property 'key' was updated. From value 1 to value2";
-
-
-    public static Object valueChanger(Object value) { // проверка является ли значение пары массивом или мапой
-        //if (value.toString().startsWith("[") || value.toString().startsWith("{")) {
+    public static Object complexValuesCheck(Object value) { // проверка является ли значение пары массивом или мапой
         if(value.getClass() == ArrayList.class || value.getClass() == LinkedHashMap.class) {
             return "[complex value]";
-        } else if(value.getClass() == String.class) {
+        }
+        if (value.getClass() == String.class) {
             return "'" + value + "'";
         }
         return value;
@@ -33,39 +24,29 @@ public class Plain {
 
     public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
 
-        map1 = mapFirst;
-        map2 = mapSecond;
+        setMap1(mapFirst);
+        setMap2(mapSecond);
 
-       return Stream.concat(map1.keySet().stream(), map2.keySet().stream())
+       return Stream.concat(getMap1().keySet().stream(), getMap2().keySet().stream())
                 .distinct()
                 .sorted()
-                .map(key -> getCorrectEntry(Map.entry(key, map1.containsKey(key) ? map1.get(key): map2.get(key))))
+                .map(key -> getCorrectEntry(Map.entry(key, getMap1().containsKey(key) ? getMap1().get(key): getMap2().get(key))))
                 .collect(Collectors.joining(""));
 
     }
         public static String getCorrectEntry(Map.Entry<String, Object> entry) {
-            generateString.delete(0, generateString.length());
-
-            if (map1.containsKey(entry.getKey()) && map2.containsKey(entry.getKey())) { // если пары равны по ключу
-                if (!map1.get(entry.getKey()).equals(map2.get(entry.getKey()))) { // если пары не равны по значению
-                    return "Property" + " '" + entry.getKey() + "' " + "was updated. From "
-                    + valueChanger(map1.get(entry.getKey()))  + " to " + valueChanger(map2.get(entry.getKey()))
-                    + "\n";
+        String key = entry.getKey();
+            if (isContainsInMaps(key)) {
+                if (!isEqualInValues(key)) {
+                    return String.format("Property '%s' was updated. From %s to %s\n", entry.getKey(),
+                            complexValuesCheck(getMap1().get(key)), complexValuesCheck(getMap2().get(key)));
                 }
-            } else if (map2.containsKey(entry.getKey())) {
-                generateString.append("Property" + " '")
-                        .append(entry.getKey())
-                        .append("' ").append("was added with value: ")
-                        .append(valueChanger(map2.get(entry.getKey())))
-                        .append("\n");
-            } else if (map1.containsKey(entry.getKey())) {
-                generateString.append("Property" + " '")
-                        .append(entry.getKey())
-                        .append("' ").append("was removed")
-                        .append("\n");
+            } if (getMap2().containsKey(key)) {
+                return String.format("Property '%s' was added with value: %s\n", key,
+                        complexValuesCheck(getMap2().get(key)));
+            } if (getMap1().containsKey(key)) {
+                return String.format("Property '%s' was removed\n", key);
             }
-
-            return generateString.toString();
+            return null;
     }
-
 }
