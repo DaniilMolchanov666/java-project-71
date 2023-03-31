@@ -1,13 +1,12 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Formatter;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-public class Stylish extends Formatter{
+public class Stylish extends FormatGenerator{
 
     private static StringBuilder generateString = new StringBuilder();
 
@@ -17,43 +16,36 @@ public class Stylish extends Formatter{
 
 
     public static String getCorrectEntry(Map.Entry<String, Object> entry) {
+        String key = entry.getKey();
 
-        if (map1.containsKey(entry.getKey()) && map2.containsKey(entry.getKey())) {
-            if (map1.get(entry.getKey()).equals(map2.get(entry.getKey()))) {
-                return "     " + entry.getKey() + ": " + entry.getValue();
+        if (isContainsInMaps(key)) {
+            if (isEqualInValues(key)) {
+                return String.format("\t%s: %s", entry.getKey(), entry.getValue());
             }
         }
         if (map1.entrySet().contains(entry)) {
-            return "   - " + entry.getKey() + ": " + entry.getValue();
-        } else {
-            if (map2.entrySet().contains(entry)) {
-                return "   + " + entry.getKey() + ": " + entry.getValue();
-            }
+            return String.format("  - %s: %s", entry.getKey(), entry.getValue());
+//                    "   - " + entry.getKey() + ": " + entry.getValue();
         }
-
-        return entry.toString();
+        return String.format("  + %s: %s", entry.getKey(), entry.getValue());
+                        //"   + " + entry.getKey() + ": " + entry.getValue();
     }
 
-    public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
+    public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) throws JsonProcessingException {
 
         map1 = mapFirst;
         map2 = mapSecond;
 
         generateString.delete(0, generateString.length());
-
         generateString.append("{" + "\n");
 
-        List<String> list = Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
+        Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
                 .distinct()
                 .sorted(Map.Entry.comparingByKey())
                 .map(Stylish::getCorrectEntry)
+                .peek(u-> generateString.append(u).append("\n"))
                 .toList();
 
-        for (String a:list) {
-               generateString.append(a).append("\n");
-        }
-
-        generateString.append("}");
-        return generateString.toString();
+        return generateString.append("}").toString();
     }
 }

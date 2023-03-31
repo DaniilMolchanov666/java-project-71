@@ -3,17 +3,9 @@
  */
 package hexlet.code;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.formatters.Json;
-import hexlet.code.formatters.Plain;
 import picocli.CommandLine;
-
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true,
@@ -21,7 +13,7 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "plain")
+    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "json")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
             defaultValue = "./app/File1.json", description = "path to first file")
@@ -30,14 +22,17 @@ public class App implements Callable {
             defaultValue = "./app/File2.json", description = "path to second file")
     Path path2;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new CommandLine(new App()).execute(args);
     }
     @Override
-    public Object call() throws IOException {
+    public Object call() {
 
-        File file1 = new File(path1.toAbsolutePath().normalize().toString());
-        File file2 = new File(path2.toAbsolutePath().normalize().toString());
+        String pathOfFile1 = path1.toAbsolutePath().normalize().toString();
+        String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
+
+        File file1 = new File(pathOfFile1);
+        File file2 = new File(pathOfFile2);
         String result = Differ.generate(file1, file2, format1);
         System.out.println(result);
         return result;

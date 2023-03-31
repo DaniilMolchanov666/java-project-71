@@ -8,49 +8,34 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Json {
+public class Json extends FormatGenerator{
 
-    private static Map<String, Object> map1 = new TreeMap<>();
+    public static TreeMap<String, Object> map1 = new TreeMap<>();
 
-    private static Map<String, Object> map2 = new TreeMap<>();
+    private static TreeMap<String, Object> map2 = new TreeMap<>();
 
     public static Map<String, Object> getCorrectEntry(Map.Entry<String, Object> entry) {
 
-        String keyOfEntry = entry.getKey();
-        Object valueOfEntry = entry.getValue();
-        Object valueOfMap1 =  map1.get(keyOfEntry);
-        Object valueOfMap2 =  map2.get(keyOfEntry);
+        String key = entry.getKey();
+        Object value = entry.getValue();
+        Object valueOfMap1 = map1.get(key);
+        Object valueOfMap2 = map2.get(key);
 
         Map<String, Object> map = new TreeMap<>();
 
-        if (map1.containsKey(keyOfEntry) && map2.containsKey(keyOfEntry)) {
-            if (valueOfMap1.equals(valueOfMap2)) {
-                //map.put("key", entry.getKey());
-                //map.put("type", "unchanged");
-                //map.put("value", entry.getValue());
-                map = Map.of ("value", valueOfEntry, "type", "unchanged", "key", keyOfEntry);
-                return map;
+        if (isContainsInMaps(key)) {
+            if (valueOfMap1.equals(value)) {
+                map = Map.of("value", value, "type", "unchanged", "key", key);
             }
-                //map.put("key", entryKey);
-                //map.put("type", "changed");
-                //map.put("value1", map1.get(entryKey));
-                //map.put("value2", map2.get(entryKey));
-                map = Map.of("key", keyOfEntry, "type", "changed","value1",
-                        valueOfMap1, "value2", valueOfMap2);
-                return map;
+            map = Map.of("key", key, "type", "changed", "value1",
+                    valueOfMap1, "value2", valueOfMap2);
         }
-        if (map1.containsKey(keyOfEntry)) {
-            map.put("key", entry.getKey());
-            map.put("type", "deleted");
-            map.put("value", entry.getValue());
-            return map;
-        } else {
-            map.put("key", entry.getKey());
-            map.put("type", "added");
-            map.put("value", entry.getValue());
-            return map;
+        if (map1.containsKey(key)) {
+            map = Map.of("key", key, "type", "deleted", "value", value);
         }
+        map = Map.of("key", key, "type", "added", "value", value);
 
+        return map;
     }
 
     public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) throws JsonProcessingException {
@@ -69,9 +54,6 @@ public class Json {
                 .distinct()
                 .toList();
 
-        String json = b.writeValueAsString(list);
-        return json;
-
-
+        return b.writeValueAsString(list);
     }
 }

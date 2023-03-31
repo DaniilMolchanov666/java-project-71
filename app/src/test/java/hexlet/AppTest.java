@@ -3,19 +3,15 @@ package hexlet;/*
  */
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import hexlet.code.App;
 
 import hexlet.code.Differ;
-import hexlet.code.Formatter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.TreeMap;
 
-import static org.assertj.core.api.Assertions.in;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
