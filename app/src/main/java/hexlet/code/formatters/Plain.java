@@ -4,11 +4,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Plain extends FormatGenerator{
+public class Plain {
 
-    public static Object complexValuesCheck(Object value) { // проверка является ли значение пары массивом или мапой
+    private static final String EMPTY_STRING = "";
+
+    private static final String COMPLEX_VALUE= "[complex value]";
+
+    private static Map<String, Object> map1 = new TreeMap<>();
+
+    private static Map<String, Object> map2 = new TreeMap<>();
+
+    public static Object complexValuesCheck(Object value) {
         if(value.getClass() == ArrayList.class || value.getClass() == LinkedHashMap.class) {
-            return "[complex value]";
+            return COMPLEX_VALUE;
         }
         if (value.getClass() == String.class) {
             return "'" + value + "'";
@@ -18,28 +26,41 @@ public class Plain extends FormatGenerator{
 
     public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
 
-    setMap1(mapFirst);
-    setMap2(mapSecond);
+    map1 = mapFirst;
+    map2 = mapSecond;
 
-   return Stream.concat(getMap1().keySet().stream(), getMap2().keySet().stream())
+   return Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
+            .sorted(Map.Entry.comparingByKey())
+            .map(Plain::getCorrectEntry)
             .distinct()
-            .sorted()
-            .map(key -> getCorrectEntry(Map.entry(key, getMap1().containsKey(key) ? getMap1().get(key): getMap2().get(key))))
             .collect(Collectors.joining(""));
 
     }
     public static String getCorrectEntry(Map.Entry<String, Object> entry) {
-        String key = entry.getKey();
-        if (isContainsInMaps(key)) {
-            if (!isEqualInValues(key)) {
-                return String.format("Property '%s' was updated. From %s to %s\n", key,
-                        complexValuesCheck(getMap1().get(key)), complexValuesCheck(getMap2().get(key)));
+        String keyOfEntry = entry.getKey();
+        Object valueOfMap1 = map1.get(keyOfEntry);
+        Object valueOfMap2 = map2.get(keyOfEntry);
+
+        if (isContainsInBothMaps(keyOfEntry)) {
+            if (!isEqualInValues(keyOfEntry)) {
+                return String.format("Property '%s' was updated. From %s to %s\n", keyOfEntry,
+                        complexValuesCheck(valueOfMap1), complexValuesCheck(valueOfMap2));
             }
+            return EMPTY_STRING;
         }
-        if (getMap2().containsKey(key)) {
-            return String.format("Property '%s' was added with value: %s\n", key,
-                    complexValuesCheck(getMap2().get(key)));
+        if (map2.containsKey(keyOfEntry)) {
+            return String.format("Property '%s' was added with value: %s\n", keyOfEntry,
+                    complexValuesCheck(valueOfMap2));
         }
-        return String.format("Property '%s' was removed\n", key);
+        return String.format("Property '%s' was removed\n", keyOfEntry);
     }
+
+    public static boolean isContainsInBothMaps(String key) {
+        return map1.containsKey(key) && map2.containsKey(key);
+    }
+
+    public static boolean isEqualInValues(String key) {
+        return isContainsInBothMaps(key) && map1.get(key).equals(map2.get(key));
+    }
+
 }

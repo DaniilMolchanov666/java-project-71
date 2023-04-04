@@ -9,23 +9,27 @@ import java.util.TreeMap;
 
 public class Formatter {
 
-    private static final String INCORRECT_FORMAT = "Incorrect format!";
-
     private static final String PARSING_PROCESSING_WARNING = "Something went wrong with parsing!";
+
+    private static final String PLAIN = "plain";
+
+    private static final String STYLISH = "stylish";
+
+    private static final String JSON = "json";
 
     public static String chooseFormat(String format, TreeMap<String, Object> map1, TreeMap<String, Object> map2) {
         try {
             switch (format) {
-                case "plain":
+                case PLAIN:
                     return Plain.genDiff(map1, map2);
-                case "stylish":
+                case STYLISH:
                     return Stylish.genDiff(map1, map2);
-                case "json":
+                case JSON:
                     return Json.genDiff(map1, map2);
             }
         } catch(JsonProcessingException e) {
-            System.out.println(PARSING_PROCESSING_WARNING);
+            e.getMessage();
         }
-        return INCORRECT_FORMAT;
+        return PARSING_PROCESSING_WARNING;
     }
 }
