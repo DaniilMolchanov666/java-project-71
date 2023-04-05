@@ -8,11 +8,15 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Json extends FormatGenerator{
+public class Json {
 
     public static TreeMap<String, Object> map1 = new TreeMap<>();
 
     private static TreeMap<String, Object> map2 = new TreeMap<>();
+
+    private static ObjectMapper mapper = new ObjectMapper();
+
+    public static ObjectWriter writer = mapper.writer();
 
     public static Map<String, Object> getCorrectEntry(Map.Entry<String, Object> entry) {
 
@@ -23,19 +27,17 @@ public class Json extends FormatGenerator{
 
         Map<String, Object> map = new TreeMap<>();
 
-        if (isContainsInMaps(key)) {
-            if (valueOfMap1.equals(value)) {
-                map = Map.of("value", value, "type", "unchanged", "key", key);
+        if (isContainsInBothMaps(key)) {
+            if (isEqualInValues(key)) {
+                return Map.of("value", value, "type", "unchanged", "key", key);
             }
-            map = Map.of("key", key, "type", "changed", "value1",
+            return Map.of("key", key, "type", "changed", "value1",
                     valueOfMap1, "value2", valueOfMap2);
         }
         if (map1.containsKey(key)) {
-            map = Map.of("key", key, "type", "deleted", "value", value);
+            return Map.of("key", key, "type", "deleted", "value", value);
         }
-        map = Map.of("key", key, "type", "added", "value", value);
-
-        return map;
+        return Map.of("key", key, "type", "added", "value", value);
     }
 
     public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) throws JsonProcessingException {
@@ -43,17 +45,22 @@ public class Json extends FormatGenerator{
         map1 = mapFirst;
         map2 = mapSecond;
 
-        ObjectMapper a = new ObjectMapper();
-        ObjectWriter b = a.writerWithDefaultPrettyPrinter();
+        writer = mapper.writerWithDefaultPrettyPrinter();
 
         List<Map<String, Object>> list = Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
-                .distinct()
                 .sorted(Map.Entry.comparingByKey())
                 .map(Json::getCorrectEntry)
-                .toList().stream()
                 .distinct()
                 .toList();
 
-        return b.writeValueAsString(list);
+        return writer.writeValueAsString(list);
+    }
+
+    public static boolean isContainsInBothMaps(String key) {
+        return map1.containsKey(key) && map2.containsKey(key);
+    }
+
+    public static boolean isEqualInValues(String key) {
+        return isContainsInBothMaps(key) && map1.get(key).equals(map2.get(key));
     }
 }
