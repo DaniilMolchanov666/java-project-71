@@ -1,5 +1,5 @@
 {
-	age: 33
+    age: 33
   - animal: null
   + animal: -dog -cat -hamster
   - country: null

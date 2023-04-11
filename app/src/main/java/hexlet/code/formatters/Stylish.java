@@ -18,7 +18,7 @@ public class Stylish {
         for(Map<String, Object> map: mapDiff) {
             switch (map.get("type").toString()) {
                 case "unchanged" ->
-                        generateString.append(String.format("\t%s: %s\n", map.get("key"), map.get("value")));
+                        generateString.append(String.format("    %s: %s\n", map.get("key"), map.get("value")));
                 case "changed" -> {
                     generateString.append(String.format("  - %s: %s\n", map.get("key"), map.get("value")));
                     generateString.append(String.format("  + %s: %s\n", map.get("key"), map.get("value2")));
@@ -29,6 +29,6 @@ public class Stylish {
                         generateString.append(String.format("  + %s: %s\n", map.get("key"), map.get("value2")));
             }
         }
-        return generateString.append("}\r\n").toString().trim();
+        return generateString.append("}\n").toString().trim();
     }
 }

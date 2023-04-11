@@ -26,14 +26,16 @@ class AppTest {
     @DisplayName("'stylish' test for 'json' format files:")
     public void stylishJsonTest() throws IOException {
         String actual = Differ.generate(fileJsonFirst, fileJsonSecond, "stylish");
-        String expected = Files.readString(Paths.get("./src/test/resources/ExpectedStylishJson")).trim();
+        String expected = Files.readString(Paths.get("./src/test/resources/ExpectedStylishJson"));
+        System.out.println(expected);
+        System.out.println(actual);
         assertEquals(expected, actual, "for 'json' files");
     }
     @Test
     @DisplayName("'stylish' test for 'yml' format files:")
     public void stylishYmlTest() throws IOException {
         String actual = Differ.generate(fileYmlFirst, fileYmlSecond, "stylish");
-        String expected = Files.readString(Paths.get("./src/test/resources/ExpectedStylishYml")).trim();
+        String expected = Files.readString(Paths.get("./src/test/resources/ExpectedStylishYml"));
         assertEquals(actual, expected, "for 'yml' files");
     }
 

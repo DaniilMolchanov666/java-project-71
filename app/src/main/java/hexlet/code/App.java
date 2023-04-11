@@ -15,13 +15,13 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "plain")
+    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./src/test/resources/FileForTesting3.yml", description = "path to first file")
+            defaultValue = "./src/test/resources/FileForTesting1.json", description = "path to first file")
     Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./src/main/resources/NotJsonYmlFormatFile", description = "path to second file")
+            defaultValue = "./src/test/resources/FileForTesting2.json", description = "path to second file")
     Path path2;
 
     public static void main(String[] args) {
