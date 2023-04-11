@@ -4,10 +4,9 @@
 package hexlet.code;
 
 import picocli.CommandLine;
-import java.io.*;
+import java.io.IOException;
+import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true,
@@ -28,7 +27,7 @@ public class App implements Callable {
         new CommandLine(new App()).execute(args);
     }
     @Override
-    public Object call() throws IOException {
+    public Object call() {
 
         String pathOfFile1 = path1.toAbsolutePath().normalize().toString();
         String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
@@ -39,7 +38,7 @@ public class App implements Callable {
             String result = Differ.generate(file1, file2, format1);
             System.out.println(result);
             return result;
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             return e.getMessage();
         }

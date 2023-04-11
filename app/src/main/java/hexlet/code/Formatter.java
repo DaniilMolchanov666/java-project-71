@@ -20,7 +20,8 @@ public class Formatter {
 
     private static final String JSON = "json";
 
-    public static String chooseFormat(String format, TreeMap<String, Object> map1, TreeMap<String, Object> map2) throws JsonProcessingException {
+    public static String chooseFormat(String format, TreeMap<String, Object> map1, TreeMap<String, Object> map2)
+            throws JsonProcessingException {
 
         List<Map<String, Object>> listOfComparedValues = GenerateDifference.diff(map1, map2);
 

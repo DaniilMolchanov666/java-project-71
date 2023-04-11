@@ -52,8 +52,8 @@ public class GenerateDifference {
             map.putAll(Map.of("key", key, "value1", valueOfMap1, "type", DELETED));
             return map;
         }
-            map.putAll(Map.of("key", key, "value2", valueOfMap2, "type", ADDED));
-            return map;
+        map.putAll(Map.of("key", key, "value2", valueOfMap2, "type", ADDED));
+        return map;
     }
 
     public static boolean checkIsContainsInBothMaps(String key) {

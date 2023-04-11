@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 public class Parser {
 
-    private static final StringBuilder generateString = new StringBuilder();
+    private static final StringBuilder GENERATE_STRING = new StringBuilder();
 
     private static final ObjectMapper YML_MAPPER = new YAMLMapper(new YAMLFactory());
 
@@ -22,8 +22,8 @@ public class Parser {
 
     private static final String FILE_NOT_FOUND_MESSAGE = "File not found!";
 
-    private static final String FORMAT_WARNING = "Your file has the wrong format! " +
-            "Pls use files which have 'yml' or 'json' formats!";
+    private static final String FORMAT_WARNING = "Your file has the wrong format! "
+            + "Pls use files which have 'yml' or 'json' formats!";
 
     public static TreeMap<String, Object> getFileAsMap(File file) throws IOException {
 
@@ -35,8 +35,8 @@ public class Parser {
         if (!isSuitableFileExtension(file)) {
             throw new IOException(FORMAT_WARNING);
         }
-        return file.getAbsolutePath().contains("yml") ? YML_MAPPER.readValue(fileData, new TypeReference<>() {}) :
-                JSON_MAPPER.readValue(fileData, new TypeReference<>() {});
+        return file.getAbsolutePath().contains("yml") ? YML_MAPPER.readValue(fileData, new TypeReference<>() { })
+                : JSON_MAPPER.readValue(fileData, new TypeReference<>() { });
     }
 
     public static boolean isSuitableFileExtension(File file) {
@@ -45,16 +45,16 @@ public class Parser {
     }
 
     public static String getFileContent(File file) {
-        generateString.delete(0, generateString.length());
+        GENERATE_STRING.delete(0, GENERATE_STRING.length());
 
-            try (Scanner scanner = new Scanner(file)) {
-                    while(scanner.hasNext()) {
-                        String string = scanner.nextLine();
-                        generateString.append(string).append("\n");
-                    }
-            } catch (IOException e) {
-                return FILE_NOT_FOUND_MESSAGE;
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNext()) {
+                String string = scanner.nextLine();
+                GENERATE_STRING.append(string).append("\n");
             }
-            return generateString.toString();
+        } catch (IOException e) {
+            return FILE_NOT_FOUND_MESSAGE;
+        }
+        return GENERATE_STRING.toString();
     }
 }

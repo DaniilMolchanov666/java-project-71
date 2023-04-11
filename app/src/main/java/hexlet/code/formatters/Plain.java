@@ -1,35 +1,40 @@
 package hexlet.code.formatters;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 public class Plain {
 
-    private static final String COMPLEX_VALUE= "[complex value]";
+    private static final String COMPLEX_VALUE = "[complex value]";
 
-    private static final List<String> valueDifferenceList = new ArrayList<>();
+    private static final List<String> VALUE_DIFFERENCE_LIST = new ArrayList<>();
 
     public static String genDiff(List<Map<String, Object>> mapDiff) {
 
-        for(Map<String, Object> map: mapDiff) {
+        VALUE_DIFFERENCE_LIST.clear();
+
+        for (Map<String, Object> map: mapDiff) {
 
             switch (map.get("type").toString()) {
                 case "unchanged" ->
-                        valueDifferenceList.add("\n");
+                        VALUE_DIFFERENCE_LIST.add("\n");
                 case "changed" -> {
-                    valueDifferenceList.add(String.format("Property %s was updated. From %s to %s\n",
+                    VALUE_DIFFERENCE_LIST.add(String.format("Property %s was updated. From %s to %s\n",
                             complexValuesCheck(map.get("key")),
                             complexValuesCheck(map.get("value1")), complexValuesCheck(map.get("value2"))));
                 }
                 case "deleted" ->
-                    valueDifferenceList.add(String.format("Property '%s' was removed\n", map.get("key")));
+                    VALUE_DIFFERENCE_LIST.add(String.format("Property '%s' was removed\n", map.get("key")));
                 case "added" ->
-                    valueDifferenceList.add(String.format("Property '%s' was added with value: %s\n",
+                    VALUE_DIFFERENCE_LIST.add(String.format("Property '%s' was added with value: %s\n",
                             map.get("key"), complexValuesCheck(map.get("value2"))));
+                default -> VALUE_DIFFERENCE_LIST.add("");
             }
         }
-        return valueDifferenceList.stream()
+        return VALUE_DIFFERENCE_LIST.stream()
                 .sorted()
                 .collect(Collectors.joining(""))
                 .trim();
