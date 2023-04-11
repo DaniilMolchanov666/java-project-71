@@ -1,0 +1,11 @@
+{
+	age: 33
+  - animal: null
+  + animal: -dog -cat -hamster
+  - country: null
+  + country: [1, 2, 4]
+  + kkk: okwdpokwq
+  - name: null
+  + name: John
+  - sex: man
+}

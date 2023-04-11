@@ -15,28 +15,33 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "json")
+    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "plain")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./app/Files/FirstYml.yml", description = "path to first file")
+            defaultValue = "./src/test/resources/FileForTesting3.yml", description = "path to first file")
     Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./app/Files/SecondYml.yml", description = "path to second file")
+            defaultValue = "./src/main/resources/NotJsonYmlFormatFile", description = "path to second file")
     Path path2;
 
     public static void main(String[] args) {
         new CommandLine(new App()).execute(args);
     }
     @Override
-    public Object call() {
+    public Object call() throws IOException {
 
         String pathOfFile1 = path1.toAbsolutePath().normalize().toString();
         String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
 
-        File file1 = new File(pathOfFile1);
-        File file2 = new File(pathOfFile2);
-        String result = Differ.generate(file1, file2, format1);
-        System.out.println(result);
-        return result;
+        try {
+            File file1 = new File(pathOfFile1);
+            File file2 = new File(pathOfFile2);
+            String result = Differ.generate(file1, file2, format1);
+            System.out.println(result);
+            return result;
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
     }
 }

@@ -1,0 +1,9 @@
+---
+animal:
+  -dog
+  -cat
+name: John Smith
+age: 33
+sex: man
+country: [1,2,3]
+---

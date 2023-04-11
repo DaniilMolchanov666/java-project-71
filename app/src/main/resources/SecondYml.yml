@@ -1,0 +1,10 @@
+---
+animal:
+  -dog
+  -cat
+  -hamster
+name: John
+age: 33
+kkk: okwdpokwq
+country: [1,2,4]
+---

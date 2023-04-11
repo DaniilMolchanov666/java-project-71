@@ -1,53 +1,34 @@
 package hexlet.code.formatters;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Stylish {
 
     private static final StringBuilder generateString = new StringBuilder();
 
-    private static TreeMap<String, Object> map1 = new TreeMap<>();
+    public static String genDiff(List<Map<String, Object>> mapDiff) {
 
-    private static TreeMap<String, Object> map2 = new TreeMap<>();
+        generateString.append("{").append("\n");
 
-
-    public static String getCorrectEntry(Map.Entry<String, Object> entry) {
-        String key = entry.getKey();
-
-        if (isContainsInBothMaps(key)) {
-            if (isEqualInValues(key)) {
-                return String.format("\t%s: %s", entry.getKey(), entry.getValue());
+        for(Map<String, Object> map: mapDiff) {
+            switch (map.get("type").toString()) {
+                case "unchanged" ->
+                        generateString.append(String.format("\t%s: %s\n", map.get("key"), map.get("value")));
+                case "changed" -> {
+                    generateString.append(String.format("  - %s: %s\n", map.get("key"), map.get("value")));
+                    generateString.append(String.format("  + %s: %s\n", map.get("key"), map.get("value2")));
+                }
+                case "deleted" ->
+                        generateString.append(String.format("  - %s: %s\n", map.get("key"), map.get("value1")));
+                case "added" ->
+                        generateString.append(String.format("  + %s: %s\n", map.get("key"), map.get("value2")));
             }
         }
-        if (map1.entrySet().contains(entry)) {
-            return String.format("  - %s: %s", entry.getKey(), entry.getValue());
-        }
-        return String.format("  + %s: %s", entry.getKey(), entry.getValue());
-    }
-
-    public static String genDiff(TreeMap<String, Object> mapFirst, TreeMap<String, Object> mapSecond) {
-
-        map1 = mapFirst;
-        map2 = mapSecond;
-
-        generateString.append("{" + "\n");;
-
-        Stream.concat(map1.entrySet().stream(), map2.entrySet().stream())
-                .distinct()
-                .sorted(Map.Entry.comparingByKey())
-                .map(Stylish::getCorrectEntry)
-                .forEach(a -> generateString.append(a).append("\n"));
-
-        return generateString.append("}").toString();
-    }
-
-    public static boolean isContainsInBothMaps(String key) {
-        return map1.containsKey(key) && map2.containsKey(key);
-    }
-
-    public static boolean isEqualInValues(String key) {
-        return isContainsInBothMaps(key) && map1.get(key).equals(map2.get(key));
+        return generateString.append("}\r\n").toString().trim();
     }
 }

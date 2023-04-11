@@ -1,0 +1,28 @@
+[ {
+  "key" : "age",
+  "type" : "unchanged",
+  "value" : 33
+}, {
+  "key" : "animal",
+  "type" : "changed",
+  "value1" : "-dog -cat",
+  "value2" : "-dog -cat -hamster"
+}, {
+  "key" : "country",
+  "type" : "changed",
+  "value1" : [ 1, 2, 3 ],
+  "value2" : [ 1, 2, 4 ]
+}, {
+  "key" : "kkk",
+  "type" : "added",
+  "value2" : "okwdpokwq"
+}, {
+  "key" : "name",
+  "type" : "changed",
+  "value1" : "John Smith",
+  "value2" : "John"
+}, {
+  "key" : "sex",
+  "type" : "deleted",
+  "value1" : "man"
+} ]
