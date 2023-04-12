@@ -14,7 +14,8 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"}, description = "output format", defaultValue = "stylish")
+    @CommandLine.Option(names = {"-f", "--format"},  required = true, description = "output format [default: stylish]",
+            defaultValue = "stylish")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
             defaultValue = "./src/test/resources/FileForTesting1.json", description = "path to first file")
