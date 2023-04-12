@@ -5,7 +5,6 @@ package hexlet.code;
 
 import picocli.CommandLine;
 import java.io.IOException;
-import java.io.File;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
@@ -18,7 +17,7 @@ public class App implements Callable {
             defaultValue = "stylish")
     String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./src/test/resources/FileForTesting1.json", description = "path to first file")
+            defaultValue = "./src/test/resources/FileForTesting1.son", description = "path to first file")
     Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
             defaultValue = "./src/test/resources/FileForTesting2.json", description = "path to second file")
@@ -34,9 +33,7 @@ public class App implements Callable {
         String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
 
         try {
-            File file1 = new File(pathOfFile1);
-            File file2 = new File(pathOfFile2);
-            String result = Differ.generate(file1, file2, format1);
+            String result = Differ.generate(pathOfFile1, pathOfFile2, format1);
             System.out.println(result);
             return result;
         } catch (IOException e) {
