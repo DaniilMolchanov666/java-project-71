@@ -2,6 +2,7 @@ package hexlet.code.formatters;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
@@ -34,8 +35,6 @@ public class GenerateDifference {
 
         String key = entry.getKey();
         Object value = entry.getValue();
-        Object valueOfMap1 = map1.get(key);
-        Object valueOfMap2 = map2.get(key);
 
         Map<String, Object> map = new TreeMap<>();
 
@@ -44,15 +43,15 @@ public class GenerateDifference {
                 map.putAll(Map.of("key", key, "value", value, "type", UNCHANGED));
                 return map;
             }
-            map.putAll(Map.of("key", key, "value1",  valueOfMap1, "value2", valueOfMap2,
+            map.putAll(Map.of("key", key, "value1",  map1.get(key), "value2", map2.get(key),
                     "type", CHANGED));
             return map;
         }
         if (map1.containsKey(key)) {
-            map.putAll(Map.of("key", key, "value1", valueOfMap1, "type", DELETED));
+            map.putAll(Map.of("key", key, "value1", map1.get(key), "type", DELETED));
             return map;
         }
-        map.putAll(Map.of("key", key, "value2", valueOfMap2, "type", ADDED));
+        map.putAll(Map.of("key", key, "value2", map2.get(key), "type", ADDED));
         return map;
     }
 
@@ -61,6 +60,6 @@ public class GenerateDifference {
     }
 
     public static boolean checkForEqualityOfValues(String key) {
-        return checkIsContainsInBothMaps(key) && map1.get(key).equals(map2.get(key));
+        return Objects.equals(map1.get(key), map2.get(key));
     }
 }
