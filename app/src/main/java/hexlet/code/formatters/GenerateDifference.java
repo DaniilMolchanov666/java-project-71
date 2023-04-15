@@ -40,19 +40,23 @@ public class GenerateDifference {
 
         if (checkIsContainsInBothMaps(key)) {
             if (checkForEqualityOfValues(key)) {
-                map.putAll(Map.of("key", key, "value", value, "type", UNCHANGED));
+                map.putAll(Map.of("key", key, "value", checkNullValue(value), "type", UNCHANGED));
                 return map;
             }
-            map.putAll(Map.of("key", key, "value1",  map1.get(key), "value2", map2.get(key),
-                    "type", CHANGED));
+            map.putAll(Map.of("key", key, "value1", checkNullValue(map1.get(key)),
+                    "value2", checkNullValue(map2.get(key)), "type", CHANGED));
             return map;
         }
         if (map1.containsKey(key)) {
-            map.putAll(Map.of("key", key, "value1", map1.get(key), "type", DELETED));
+            map.putAll(Map.of("key", key, "value1", checkNullValue(map1.get(key)), "type", DELETED));
             return map;
         }
-        map.putAll(Map.of("key", key, "value2", map2.get(key), "type", ADDED));
+        map.putAll(Map.of("key", key, "value2", checkNullValue(map2.get(key)), "type", ADDED));
         return map;
+    }
+
+    public static Object checkNullValue(Object value) {
+        return value == null ? "null" : value;
     }
 
     public static boolean checkIsContainsInBothMaps(String key) {

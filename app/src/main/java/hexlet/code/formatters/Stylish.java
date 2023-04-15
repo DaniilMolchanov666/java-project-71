@@ -18,7 +18,7 @@ public class Stylish {
                 case "unchanged" ->
                         GENERATE_STRING.append(String.format("    %s: %s\n", map.get("key"), map.get("value")));
                 case "changed" -> {
-                    GENERATE_STRING.append(String.format("  - %s: %s\n", map.get("key"), map.get("value")));
+                    GENERATE_STRING.append(String.format("  - %s: %s\n", map.get("key"), map.get("value1")));
                     GENERATE_STRING.append(String.format("  + %s: %s\n", map.get("key"), map.get("value2")));
                 }
                 case "deleted" ->
