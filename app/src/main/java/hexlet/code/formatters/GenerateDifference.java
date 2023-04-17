@@ -36,28 +36,36 @@ public class GenerateDifference {
         String key = entry.getKey();
         Object value = entry.getValue();
 
-        Map<String, Object> map = new TreeMap<>();
+        TreeMap<String, Object> map = new TreeMap<>();
 
         if (checkIsContainsInBothMaps(key)) {
             if (checkForEqualityOfValues(key)) {
-                map.putAll(Map.of("key", key, "value", checkNullValue(value), "type", UNCHANGED));
+                map.put("key", key);
+                map.put("value", value);
+                map.put("type", UNCHANGED);
                 return map;
             }
-            map.putAll(Map.of("key", key, "value1", checkNullValue(map1.get(key)),
-                    "value2", checkNullValue(map2.get(key)), "type", CHANGED));
+            map.put("key", key);
+            map.put("value1", map1.get(key));
+            map.put("value2", map2.get(key));
+            map.put("type", CHANGED);
             return map;
         }
         if (map1.containsKey(key)) {
-            map.putAll(Map.of("key", key, "value1", checkNullValue(map1.get(key)), "type", DELETED));
+            map.put("key", key);
+            map.put("value1", map1.get(key));
+            map.put("type", DELETED);
             return map;
         }
-        map.putAll(Map.of("key", key, "value2", checkNullValue(map2.get(key)), "type", ADDED));
+        map.put("key", key);
+        map.put("value2", map2.get(key));
+        map.put("type", ADDED);
         return map;
     }
 
-    public static Object checkNullValue(Object value) {
-        return value == null ? "null" : value;
-    }
+//    public static Object checkNullValue(Object value) {
+//        return value == null ? "null" : value;
+//    }
 
     public static boolean checkIsContainsInBothMaps(String key) {
         return map1.containsKey(key) && map2.containsKey(key);
