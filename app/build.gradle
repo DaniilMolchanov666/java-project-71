@@ -14,19 +14,9 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id 'com.adarshr.test-logger' version '3.1.0'
+    id 'se.patrikerdes.use-latest-versions' version '0.2.18'
     id 'com.github.ben-manes.versions' version '0.42.0'
     id 'net.ltgt.errorprone' version '2.0.2'
-}
-
-jacoco {
-    toolVersion = "0.8.8"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-}
-
-
-application {
-    // Define the main class for the application.
-    mainClassName = 'hexlet.code.App'
 }
 
 group 'hexlet.code'
@@ -35,6 +25,15 @@ version '1.0-SNAPSHOT'
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+}
+
+compileJava {
+    options.release = 17
+}
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'hexlet.code.App'
 }
 
 dependencies {
@@ -65,14 +64,7 @@ dependencies {
 }
 
 test {
-    finalizedBy jacocoTestReport // report is always generated after tests run
-}
-jacocoTestReport {
-    reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-    }
+    useJUnitPlatform()
 }
 
 testlogger {
@@ -80,8 +72,20 @@ testlogger {
 }
 
 test {
-    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
 }
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
 testing {
     suites {
         // Configure the built-in test suite
@@ -112,10 +116,6 @@ jacocoTestCoverageVerification {
             }
         }
     }
-}
-
-compileJava {
-    options.release = 17
 }
 
 run {
