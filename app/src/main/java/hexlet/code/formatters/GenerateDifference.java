@@ -63,10 +63,6 @@ public class GenerateDifference {
         return map;
     }
 
-//    public static Object checkNullValue(Object value) {
-//        return value == null ? "null" : value;
-//    }
-
     public static boolean checkIsContainsInBothMaps(String key) {
         return map1.containsKey(key) && map2.containsKey(key);
     }
