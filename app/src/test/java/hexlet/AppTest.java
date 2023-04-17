@@ -26,7 +26,6 @@ class AppTest {
         String expected = Files.readString(Paths.get("./src/test/resources/ExpectedStylishJson"));
         assertEquals(expected, actual, "for 'json' files");
     }
-    
     @Test
     @DisplayName("'stylish' test for 'yml' format files:")
     public void stylishYmlTest() throws IOException {

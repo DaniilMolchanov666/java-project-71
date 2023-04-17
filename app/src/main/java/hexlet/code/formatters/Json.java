@@ -11,7 +11,7 @@ public class Json {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public static ObjectWriter writer = mapper.writer();
+    private static ObjectWriter writer = mapper.writer();
 
     public static String genDiff(List<Map<String, Object>> mapDiff) throws JsonProcessingException {
 

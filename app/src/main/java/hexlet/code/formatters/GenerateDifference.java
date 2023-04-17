@@ -16,7 +16,7 @@ public class GenerateDifference {
 
     private static final String CHANGED = "changed";
 
-    public static TreeMap<String, Object> map1 = new TreeMap<>();
+    private static TreeMap<String, Object> map1 = new TreeMap<>();
 
     private static TreeMap<String, Object> map2 = new TreeMap<>();
 
