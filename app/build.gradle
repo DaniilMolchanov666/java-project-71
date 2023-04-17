@@ -64,6 +64,17 @@ dependencies {
     errorprone 'com.google.errorprone:error_prone_core:2.11.0'
 }
 
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
 testlogger {
     showStandardStreams true
 }
@@ -81,14 +92,27 @@ testing {
     }
 }
 
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
 
-test {
-    finalizedBy jacocoTestReport // report is always generated after tests run
-}
-jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
-}
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
 
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
 
 compileJava {
     options.release = 17
