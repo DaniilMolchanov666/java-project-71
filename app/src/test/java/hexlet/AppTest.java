@@ -27,7 +27,7 @@ class AppTest {
         ObjectMapper o = new ObjectMapper(new JsonFactory());
         String actual = Differ.generate(FILE_JSON_FIRST, FILE_JSON_SECOND, "stylish");
         String act = o.writeValueAsString(actual);
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_stylish_json"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_stylish_json"));
         String exp = o.writeValueAsString(expected).trim();
         assertEquals(exp, act, "for 'json' files");
     }
@@ -35,7 +35,7 @@ class AppTest {
     @DisplayName("'stylish' test for 'yml' format files:")
     public void stylishYmlTest() throws IOException {
         String actual = Differ.generate(FILE_YML_FIRST, FILE_YML_SECOND, "stylish");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_stylish_yml"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_stylish_yml"));
         assertEquals(actual, expected, "for 'yml' files");
     }
 
@@ -43,7 +43,7 @@ class AppTest {
     @DisplayName("'plain' format for 'json' files test:")
     public void plainJsonTest() throws IOException {
         String actual = Differ.generate(FILE_JSON_FIRST, FILE_JSON_SECOND, "plain");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_plain_json"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_plain_json"));
         assertEquals(actual, expected, "for 'json' files");
     }
 
@@ -51,7 +51,7 @@ class AppTest {
     @DisplayName("'plain' format for 'yml' files test:")
     public void plainYmlTest() throws IOException {
         String actual = Differ.generate(FILE_YML_FIRST, FILE_YML_SECOND, "plain");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_plain_yml"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_plain_yml"));
         assertEquals(actual, expected, "for 'yml' files");
     }
 
@@ -59,7 +59,7 @@ class AppTest {
     @DisplayName("'json' format for 'json' files test:")
     public void jsonFormatForJsonFilesTest() throws IOException {
         String actual = Differ.generate(FILE_JSON_FIRST, FILE_JSON_SECOND, "json");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_json_json"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_json_json"));
         assertEquals(actual, expected, "for 'json' files");
     }
 
@@ -67,7 +67,7 @@ class AppTest {
     @DisplayName("'json' format for 'yml' files test:")
     public void jsonFormatForYmlFilesTest() throws IOException {
         String actual = Differ.generate(FILE_YML_FIRST, FILE_YML_SECOND, "json");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_json_yaml"));
+        String expected = Files.readString(Paths.get("./src/test/resources/Fixtures/expected_json_yaml"));
         assertEquals(actual, expected, "for 'yml' files");
     }
 }
