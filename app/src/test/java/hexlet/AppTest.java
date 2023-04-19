@@ -7,7 +7,6 @@ import hexlet.code.Differ;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,7 +67,7 @@ class AppTest {
     @DisplayName("'json' format for 'yml' files test:")
     public void jsonFormatForYmlFilesTest() throws IOException {
         String actual = Differ.generate(FILE_YML_FIRST, FILE_YML_SECOND, "json");
-        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_json_yaml"), StandardCharsets.UTF_8);
+        String expected = Files.readString(Paths.get("./src/test/resources/fixtures/expected_json_yaml"));
         assertEquals(actual, expected, "for 'yml' files");
     }
 }
