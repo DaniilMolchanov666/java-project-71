@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppTest {
 
-    private static final String FILE_JSON_FIRST = "./src/test/resources/FileForTesting1.json";
+    private static final String FILE_JSON_FIRST = "./src/test/resources/FIleForTesting1.json";
 
     private static final String FILE_JSON_SECOND = "./src/test/resources/FileForTesting2.json";
 

@@ -6,55 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Parser {
-
-    private static final StringBuilder GENERATE_STRING = new StringBuilder();
 
     private static final ObjectMapper YML_MAPPER = new YAMLMapper(new YAMLFactory());
 
     private static final ObjectMapper JSON_MAPPER = new JsonMapper(new JsonFactory());
 
-    private static final String FILE_NOT_FOUND_MESSAGE = "File not found!";
-
-    private static final String FORMAT_WARNING = "Your file has the wrong format! "
-            + "Pls use files which have 'yml' or 'json' formats!";
-
-    public static TreeMap<String, Object> getFileAsMap(String filepath) throws IOException {
-        File file = new File(filepath);
-        String fileData  = getFileContent(file);
-
-        if (fileData.equals(FILE_NOT_FOUND_MESSAGE)) {
-            throw new IOException(FILE_NOT_FOUND_MESSAGE);
-        }
-        if (!isSuitableFileExtension(file)) {
-            throw new IOException(FORMAT_WARNING);
-        }
-        return file.getAbsolutePath().contains("yml") ? YML_MAPPER.readValue(fileData, new TypeReference<>() { })
-                : JSON_MAPPER.readValue(fileData, new TypeReference<>() { });
-    }
-
-    public static boolean isSuitableFileExtension(File file) {
-        String pathOfFile = file.getAbsolutePath();
-        return pathOfFile.contains("yml") || pathOfFile.contains("json");
-    }
-
-    public static String getFileContent(File file) {
-        GENERATE_STRING.delete(0, GENERATE_STRING.length());
-
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNext()) {
-                String string = scanner.nextLine();
-                GENERATE_STRING.append(string).append("\n");
-            }
-        } catch (IOException e) {
-            return FILE_NOT_FOUND_MESSAGE;
-        }
-        return GENERATE_STRING.toString();
+    public static TreeMap<String, Object> getFileAsMap(String fileContent, String formatOfFile) throws IOException {
+        return formatOfFile.contains("yml") ? YML_MAPPER.readValue(fileContent, new TypeReference<>() { })
+                : JSON_MAPPER.readValue(fileContent, new TypeReference<>() { });
     }
 }

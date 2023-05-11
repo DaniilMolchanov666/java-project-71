@@ -17,10 +17,10 @@ public final class App implements Callable {
             defaultValue = "stylish")
     private String format1;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./src/test/resources/FileForTesting3.yml", description = "path to first file")
+            defaultValue = "./src/main/resources/ExampleFile1.json", description = "path to first file")
     private Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./src/test/resources/FileForTesting4.yml", description = "path to second file")
+            defaultValue = "./src/main/resources/ExampleFile1.json", description = "path to second file")
     private Path path2;
 
     public static void main(String[] args) {
@@ -33,14 +33,8 @@ public final class App implements Callable {
         String pathOfFile1 = path1.toAbsolutePath().normalize().toString();
         String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
 
-        String result;
-
         try {
-            if (format1.equals("stylish")) {
-                result = Differ.generate(pathOfFile1, pathOfFile2);
-            } else {
-                result = Differ.generate(pathOfFile1, pathOfFile2, format1);
-            }
+            String result = Differ.generate(pathOfFile1, pathOfFile2, format1);
             System.out.println(result);
             return result;
         } catch (IOException e) {
