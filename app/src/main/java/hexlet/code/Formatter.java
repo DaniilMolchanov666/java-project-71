@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Formatter {
 
-    private static final String PARSING_PROCESSING_WARNING = "Something went wrong with parsing!";
+    private static final String PARSING_PROCESSING_WARNING = "Incorrect format!";
 
     private static final String PLAIN = "plain";
 

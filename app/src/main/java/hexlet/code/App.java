@@ -20,10 +20,10 @@ public final class App implements Callable {
             defaultValue = "./src/main/resources/ExampleFile1.json", description = "path to first file")
     private Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./src/main/resources/ExampleFile1.json", description = "path to second file")
+            defaultValue = "./src/main/resources/ExampleFile2.json", description = "path to second file")
     private Path path2;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new CommandLine(new App()).execute(args);
     }
 
