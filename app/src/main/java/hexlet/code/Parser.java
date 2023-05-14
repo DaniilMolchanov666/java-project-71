@@ -11,12 +11,18 @@ import java.util.TreeMap;
 
 public class Parser {
 
-    private static final ObjectMapper YML_MAPPER = new YAMLMapper(new YAMLFactory());
+    private static final String FORMAT_WARNING = "Your file has the wrong format! "
+            + "Pls use files which have 'yml' or 'json' formats!";
+    public static TreeMap<String, Object> getFileAsMap(String contentData, String formatOfData) throws IOException {
 
-    private static final ObjectMapper JSON_MAPPER = new JsonMapper(new JsonFactory());
+        ObjectMapper yamlMapper = new YAMLMapper(new YAMLFactory());
+        ObjectMapper jsonMapper = new JsonMapper(new JsonFactory());
 
-    public static TreeMap<String, Object> getFileAsMap(String fileContent, String formatOfFile) throws IOException {
-        return formatOfFile.contains("yml") ? YML_MAPPER.readValue(fileContent, new TypeReference<>() { })
-                : JSON_MAPPER.readValue(fileContent, new TypeReference<>() { });
+        return switch (formatOfData) {
+            case "yaml", "yml" -> yamlMapper.readValue(contentData, new TypeReference<>() { });
+            case "json" -> jsonMapper.readValue(contentData, new TypeReference<>() { });
+
+            default -> throw new RuntimeException(FORMAT_WARNING);
+        };
     }
 }

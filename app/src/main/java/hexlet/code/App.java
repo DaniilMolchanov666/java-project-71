@@ -13,14 +13,14 @@ import java.util.concurrent.Callable;
 
 public final class App implements Callable {
 
-    @CommandLine.Option(names = {"-f", "--format"},  required = true, description = "output format [default: stylish]",
-            defaultValue = "stylish")
-    private String format1;
+    @CommandLine.Option(names = {"-f", "--format"},  required = true, description
+            = "output format [default: ${defaultValue}]", defaultValue = "stylish")
+    private String format;
     @CommandLine.Parameters(paramLabel = "filepath1",
-            defaultValue = "./src/main/resources/ExampleFile1.json", description = "path to first file")
+            defaultValue = "./app/src/test/resources/FIleForTesting1.json", description = "path to first file")
     private Path path1;
     @CommandLine.Parameters(paramLabel = "filepath2",
-            defaultValue = "./src/main/resources/ExampleFile2.json", description = "path to second file")
+            defaultValue = "./app/src/test/resources/FIle.txt", description = "path to second file")
     private Path path2;
 
     public static void main(String[] args) throws IOException {
@@ -33,12 +33,20 @@ public final class App implements Callable {
         String pathOfFile1 = path1.toAbsolutePath().normalize().toString();
         String pathOfFile2 = path2.toAbsolutePath().normalize().toString();
 
+        String result = "";
+
         try {
-            String result = Differ.generate(pathOfFile1, pathOfFile2, format1);
+            if (format.isEmpty()) {
+                result = Differ.generate(pathOfFile1, pathOfFile2);
+                System.out.println(result);
+                return result;
+            }
+            result = Differ.generate(pathOfFile1, pathOfFile2, format);
             System.out.println(result);
             return result;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+
+        } catch (IOException | RuntimeException e) {
+            System.out.println(e.getMessage() + e.getClass());
             return e.getMessage();
         }
     }

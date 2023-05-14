@@ -1,4 +1,4 @@
-package hexlet.code.formatters;
+package hexlet.code;
 
 import java.util.List;
 import java.util.Map;
@@ -38,13 +38,12 @@ public class GenerateDifference {
 
         TreeMap<String, Object> map = new TreeMap<>();
 
-        if (checkIsContainsInBothMaps(key)) {
-            if (checkForEqualityOfValues(key)) {
-                map.put("key", key);
-                map.put("value", value);
-                map.put("type", UNCHANGED);
-                return map;
-            }
+        if (checkIsContainsInBothMaps(key) && checkForEqualityOfValues(key)) {
+            map.put("key", key);
+            map.put("value", value);
+            map.put("type", UNCHANGED);
+            return map;
+        } else if (checkIsContainsInBothMaps(key) && !checkForEqualityOfValues(key)) {
             map.put("key", key);
             map.put("value1", map1.get(key));
             map.put("value2", map2.get(key));

@@ -30,7 +30,7 @@ public class Plain {
                 case "added" ->
                     LIST_OF_VALUE_DIFFERENCE.add(String.format("Property '%s' was added with value: %s\n",
                             map.get("key"), typeOfValueCheck(map.get("value2"))));
-                default -> LIST_OF_VALUE_DIFFERENCE.add("");
+                default -> throw new RuntimeException("Unknown type!" + map.get("type"));
             }
         }
         return LIST_OF_VALUE_DIFFERENCE.stream()
@@ -39,7 +39,7 @@ public class Plain {
                 .trim();
     }
 
-    public static Object typeOfValueCheck(Object value) {
+    public static String typeOfValueCheck(Object value) {
         if (value == null) {
             return null;
         }
@@ -49,6 +49,6 @@ public class Plain {
         if (value.getClass() == String.class) {
             return "'" + value + "'";
         }
-        return value;
+        return value.toString();
     }
 }
